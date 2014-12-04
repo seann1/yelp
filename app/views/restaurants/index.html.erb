@@ -1,0 +1,41 @@
+<div class="jumbotron">
+  <h2>Yelp is the best way to find reviews on local restaurants.</h2>
+  <h3>Explore your favorite eateries and places in your community.<br>
+      Leave reviews for your fellow foodies.</h3>
+</div>
+
+<table class="table table-hover table-condensed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Phone</th>
+      <th>Website</th>
+      <% if user_signed_in? && current_user.admin? %>
+        <th colspan="2"></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @restaurants.each do |restaurant| %>
+      <tr>
+        <td><%= link_to restaurant.name, restaurant %></td>
+        <td><%= restaurant.address %></td>
+        <td><%= restaurant.phone %></td>
+        <td><%= link_to restaurant.website, restaurant.website %></td>
+        <% if user_signed_in? && current_user.admin? %>
+          <td><%= link_to 'Edit', edit_restaurant_path(restaurant), class: "btn btn-link" %></td>
+          <td><%= link_to 'Destroy', restaurant, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link" %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if user_signed_in? && current_user.admin? %>
+  <%= link_to 'New Restaurant', new_restaurant_path, class: "btn btn-link" %>
+<% end %>
+
+<%= image_tag "https://s3-us-west-2.amazonaws.com/yelpper/happy_footer.png" %>
